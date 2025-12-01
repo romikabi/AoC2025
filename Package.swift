@@ -11,18 +11,10 @@ let package = Package(
   name: "AdventOfCode",
   platforms: [.macOS(.v13), .iOS(.v16), .watchOS(.v9), .tvOS(.v16)],
   dependencies: [
-    .package(
-      url: "https://github.com/apple/swift-algorithms.git",
-      .upToNextMajor(from: "1.2.0")),
-    .package(
-      url: "https://github.com/apple/swift-collections.git",
-      .upToNextMajor(from: "1.1.4")),
-    .package(
-      url: "https://github.com/apple/swift-argument-parser.git",
-      .upToNextMajor(from: "1.5.0")),
-    .package(
-      url: "https://github.com/swiftlang/swift-format.git",
-      .upToNextMajor(from: "600.0.0"))
+    .package(url: "https://github.com/apple/swift-algorithms.git", from: "1.2.1"),
+    .package(url: "https://github.com/apple/swift-collections.git", from: "1.1.4"),
+    .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.5.0"),
+    .package(url: "https://github.com/swiftlang/swift-format.git", from: "600.0.0"),
   ],
   targets: [
     .executableTarget(
