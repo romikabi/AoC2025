@@ -4,7 +4,7 @@ import ArgumentParser
 import Core
 
 // Add each new day implementation to this array:
-private let allChallenges: [any AdventDay] = [
+private let allChallenges: [any AdventDay.Type] = [
   Day00(),
   Day01(),
   Day02(),
@@ -47,7 +47,7 @@ struct AdventOfCode: AsyncParsableCommand {
   }
 
   func run() async throws {
-    let challenges =
+    let challengeTypes =
       if all {
         allChallenges
       } else {
@@ -60,8 +60,11 @@ struct AdventOfCode: AsyncParsableCommand {
         ]
       }
 
-    for challenge in challenges {
-      print("Executing Advent of Code challenge \(type(of: challenge))...")
+    for challengeType in challengeTypes {
+      let day = challengeType.day
+      let year = challengeType.year ?? 0
+      print("Executing Advent of Code \(year != 0 ? "\(year) " : " ")challenge \(day)...")
+      let challenge = try challengeType.init()
 
       let timing1 = await run(part: challenge.part1, named: "Part 1")
       let timing2 = await run(part: challenge.part2, named: "Part 2")

@@ -3,17 +3,17 @@ import ArgumentParser
 public struct ChallengeSelector {
   private let day: Int?
   private let year: Int?
-  private let challenges: [any AdventDay]
+  private let challenges: [any AdventDay.Type]
 
-  public init(day: Int?, year: Int?, challenges: [any AdventDay]) {
+  public init(day: Int?, year: Int?, challenges: [any AdventDay.Type]) {
     self.day = day
     self.year = year
     self.challenges = challenges
   }
 
-  public var selectedChallenge: any AdventDay {
+  public var selectedChallenge: any AdventDay.Type {
     get throws {
-      let years = challenges.map(\.year)
+      let years = challenges.map { $0.year }
       let targetYear =
         if let year {
           year
@@ -23,7 +23,7 @@ public struct ChallengeSelector {
           years.compactMap { $0 }.max()
         }
       let yearChallenges = challenges.filter { $0.year == targetYear }
-      let targetDay = day ?? yearChallenges.map(\.day).max()
+      let targetDay = day ?? yearChallenges.map { $0.day }.max()
       let matchingChallenges = yearChallenges.filter { $0.day == targetDay }
 
       if let firstChallenge = matchingChallenges.first {

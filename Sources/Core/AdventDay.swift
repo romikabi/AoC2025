@@ -1,3 +1,4 @@
+import ArgumentParser
 import Foundation
 import RegexBuilder
 
@@ -13,7 +14,7 @@ public protocol AdventDay: Sendable {
   /// The year of the Advent of Code challenge.
   ///
   /// You can implement this property, or, if your type is named with the
-  /// year number following `Year` (like `Day01Year2015`), it is derived automatically.
+  /// year number following `Year` (like `Year2015Day01`), it is derived automatically.
   static var year: Int? { get }
 
   /// An initializer that uses the provided test data.
@@ -78,23 +79,51 @@ extension AdventDay {
   }
 
   /// An initializer that loads the test data from the corresponding data file.
-  public init() {
-    self.init(data: Self.loadData())
+  public init() throws {
+    self.init(data: try Self.loadData())
   }
 
-  public static func loadData() -> String {
+  public static func loadData() throws -> String {
     let dayString = String(format: "Day%02d", day)
-    let yearString = year.map { String(format: "Year%04d", $0) }
-    let dataFilename = dayString + (yearString ?? "")
-    let dataURL = Bundle.module.url(
-      forResource: dataFilename,
-      withExtension: "txt",
-      subdirectory: "Data")
+    let dataURL: URL
+    if let year {
+      let yearString = String(format: "Year%04d", year)
+      let url =
+        // Data/Year0000Day00.txt
+        Bundle.module.url(
+          forResource: yearString + dayString,
+          withExtension: "txt",
+          subdirectory: "Data"
+        )
+        // Data/0000/Day00.txt
+        ?? Bundle.module.url(
+          forResource: dayString,
+          withExtension: "txt",
+          subdirectory: "Data/\(year)/"
+        )
+      if let url {
+        dataURL = url
+      } else {
+        throw ValidationError(
+          "Couldn't find file '\(dayString).txt' in the 'Data/\(year)' directory.")
+      }
+    } else {
+      // Data/Day00.txt
+      let url = Bundle.module.url(
+        forResource: dayString,
+        withExtension: "txt",
+        subdirectory: "Data"
+      )
+      if let url {
+        dataURL = url
+      } else {
+        throw ValidationError("Couldn't find file '\(dayString).txt' in the 'Data' directory.")
+      }
+    }
 
-    guard let dataURL,
-      let data = try? String(contentsOf: dataURL, encoding: .utf8)
+    guard let data = try? String(contentsOf: dataURL, encoding: .utf8)
     else {
-      fatalError("Couldn't find file '\(dataFilename).txt' in the 'Data' directory.")
+      fatalError("Couldn't read file at \(dataURL.path()).")
     }
 
     // On Windows, line separators may be CRLF. Converting to LF so that \n
