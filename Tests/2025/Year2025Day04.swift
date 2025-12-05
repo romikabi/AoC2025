@@ -2,7 +2,7 @@ import Testing
 
 @testable import AdventOfCode
 
-struct Day04Tests {
+struct Year2025Day04Tests {
   let testData = """
     ..@@.@@@@.
     @@@.@.@.@@
@@ -17,12 +17,12 @@ struct Day04Tests {
     """
 
   @Test func testPart1() async throws {
-    let challenge = Day04(data: testData)
+    let challenge = Year2025.Day04(data: testData)
     #expect(String(describing: challenge.part1()) == "13")
   }
 
   @Test func testPart2() async throws {
-    let challenge = Day04(data: testData)
+    let challenge = Year2025.Day04(data: testData)
     #expect(String(describing: challenge.part2()) == "43")
   }
 }

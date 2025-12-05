@@ -8,9 +8,9 @@ struct ChallengeSelectorTests {
     let selector = ChallengeSelector(
       day: 5, year: 2010,
       challenges: [
-        Day05Year2010()
+        Day05Year2010.self
       ])
-    #expect(try selector.selectedChallenge is Day05Year2010)
+    #expect(try selector.selectedChallenge == Day05Year2010.self)
   }
 
   @Test func `day and year specified, only wrong day challenge present`() throws {
@@ -18,7 +18,7 @@ struct ChallengeSelectorTests {
     let selector = ChallengeSelector(
       day: 5, year: 2010,
       challenges: [
-        Day06Year2010()
+        Day06Year2010.self
       ])
     #expect(throws: Error.self) {
       try selector.selectedChallenge
@@ -30,7 +30,7 @@ struct ChallengeSelectorTests {
     let selector = ChallengeSelector(
       day: 5, year: 2010,
       challenges: [
-        Day05Year2011()
+        Day05Year2011.self
       ])
     #expect(throws: Error.self) {
       try selector.selectedChallenge
@@ -43,8 +43,8 @@ struct ChallengeSelectorTests {
     let selector = ChallengeSelector(
       day: 5, year: 2010,
       challenges: [
-        Day05Year2010(),
-        AnotherDay05Year2010(),
+        Day05Year2010.self,
+        AnotherDay05Year2010.self,
       ])
     #expect(throws: Error.self) {
       try selector.selectedChallenge
@@ -58,11 +58,11 @@ struct ChallengeSelectorTests {
     let selector = ChallengeSelector(
       day: 5, year: nil,
       challenges: [
-        Day05Year2010(),
-        Day05Year2011(),
-        Day05Year2009(),
+        Day05Year2010.self,
+        Day05Year2011.self,
+        Day05Year2009.self,
       ])
-    #expect(try selector.selectedChallenge is Day05Year2011)
+    #expect(try selector.selectedChallenge == Day05Year2011.self)
   }
 
   @Test func `only year specified, latest challenge from that year is selected`() throws {
@@ -72,11 +72,11 @@ struct ChallengeSelectorTests {
     let selector = ChallengeSelector(
       day: nil, year: 2010,
       challenges: [
-        Day05Year2009(),
-        Day05Year2010(),
-        Day05Year2011(),
+        Day05Year2009.self,
+        Day05Year2010.self,
+        Day05Year2011.self,
       ])
-    #expect(try selector.selectedChallenge as? Day05Year2010 != nil)
+    #expect(try selector.selectedChallenge == Day05Year2010.self)
   }
 
   @Test func `only year specified, challenges from that year aren't present`() throws {
@@ -85,8 +85,8 @@ struct ChallengeSelectorTests {
     let selector = ChallengeSelector(
       day: nil, year: 2010,
       challenges: [
-        Day05Year2009(),
-        Day05Year2011(),
+        Day05Year2009.self,
+        Day05Year2011.self,
       ])
     #expect(throws: Error.self) {
       try selector.selectedChallenge
@@ -99,10 +99,10 @@ struct ChallengeSelectorTests {
     let selector = ChallengeSelector(
       day: 5, year: nil,
       challenges: [
-        Day05Year2010(),
-        Day05(),
+        Day05Year2010.self,
+        Day05.self,
       ])
-    #expect(try selector.selectedChallenge is Day05)
+    #expect(try selector.selectedChallenge == Day05.self)
   }
 
   @Test func `only day specified, all challenges have years, latest year is selected`() throws {
@@ -111,16 +111,16 @@ struct ChallengeSelectorTests {
     let selector = ChallengeSelector(
       day: 5, year: nil,
       challenges: [
-        Day05Year2010(),
-        Day05Year2011(),
+        Day05Year2010.self,
+        Day05Year2011.self,
       ])
-    #expect(try selector.selectedChallenge is Day05Year2011)
+    #expect(try selector.selectedChallenge == Day05Year2011.self)
   }
 }
 
 extension AdventDay {
   fileprivate init(data: String) {
-    self.init()
+    self.init(data: data)
   }
   fileprivate func part1() async throws {}
 }

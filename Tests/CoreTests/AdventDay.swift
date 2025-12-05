@@ -5,7 +5,7 @@ import Testing
 // One off test to validate that basic data load testing works
 struct AdventDayTests {
   @Test func testInitData() async throws {
-    #expect(Day00().data.starts(with: "4514"))
+    #expect(try Day00().data.starts(with: "4514"))
   }
 }
 

@@ -6,7 +6,7 @@ import Core
 // Add each new day implementation to this array:
 private let allChallenges: [any AdventDay.Type] =
   [
-    Day00()
+    Day00.self
   ]
   + Year2025.challenges
 
