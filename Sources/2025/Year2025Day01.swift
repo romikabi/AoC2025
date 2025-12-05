@@ -17,7 +17,7 @@ extension Year2025.Day01: AdventDay {
       .compactMap { Int($0) }
   }
 
-  func part1() throws -> Int {
+  func part1() -> Int {
     data.reduce(into: Intermediate()) { intermediate, number in
       intermediate.sum += number
       intermediate.sum %= 100
@@ -27,7 +27,7 @@ extension Year2025.Day01: AdventDay {
     }.zeroes
   }
 
-  func part2() throws -> Int {
+  func part2() -> Int {
     data.reduce(into: Intermediate()) { intermediate, number in
       if number < 0, intermediate.sum > 0 {
         intermediate.sum -= 100
