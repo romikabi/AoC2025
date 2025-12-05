@@ -6,5 +6,6 @@ enum Year2025 {
     Day02.self,
     Day03.self,
     Day04.self,
+    Day05.self,
   ]
 }
